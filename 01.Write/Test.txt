@@ -1,1 +1,2 @@
-Enter new testx
+# Making new .out file with different name
+gcc -o [New file name with .out extention] [C/C++ file to compile]
