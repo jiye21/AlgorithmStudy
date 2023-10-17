@@ -25,16 +25,16 @@ void is_negative(int n) {
     char output[2];
 
     if (n > 0) {
-        strcpy(output, "P");
+        output[0] = 'P';
     }
     else if (n < 0) {
-        strcpy(output, "N");
+        output[0] = 'N';
     }
     else {
-        strcpy(output, "0");
+        output[0] = '0';
     }
 
-    strcat(output, "\n");
+    output[1] = '\n';
 
     write(1, &output, sizeof(output));
 }
