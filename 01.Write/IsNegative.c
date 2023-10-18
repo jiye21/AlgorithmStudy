@@ -15,10 +15,11 @@ int main(void){
 }
 
 
-// Input Manager
+/// <summary> Input Manager
+/// <parameter='output'> Guide text on init
 int InputInteger(char *output){
     int input = 0;
-    char inputChar[1024];
+    char inputChar[64];
 
     write(1, output, strlen(output));
     
@@ -33,6 +34,8 @@ int InputInteger(char *output){
     return input;
 }
 
+/// <summary> Print out string data based on int input
+/// <parameter='output'> Int input
 void is_negative(int n) {
     char output[2];
 
