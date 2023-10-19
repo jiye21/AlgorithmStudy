@@ -10,8 +10,9 @@
 #include <string.h>
 
 void Execute();
-char* ReadStdInput(int inputSize);
 void fn_swap(int *a, int *b);
+char* ReadStdInput(int inputSize);
+char* CharAppend(char* _originalText, char* _append);
 
 int main(void) {
     Execute();
@@ -21,24 +22,24 @@ int main(void) {
 // <Summary> Execute process
 void Execute() {
     int inputValue[2];
-    char outputGuide[64] =  "Swap : ";
+    char* outputGuide = "Swap : ";
 
     // Input region
     for (int k = 0; k < 2; k++) {
-        char inputGuide[32] = "Enter number ";
-        char inputAppend[8];
+        char* inputGuide;
+        char inputAppend[2];
 
         // Convert k to char
-        snprintf(&inputAppend[0], 2, "%d", k+1);
+        snprintf(inputAppend, 2, "%d", k+1);
+
         // Generate inputGuide text
-        strcat(inputAppend, " : ");
-        strcat(inputGuide, inputAppend);
+        inputGuide = CharAppend("Enter number ", CharAppend(inputAppend, " : "));
 
         // print out input guide
-        write(1, inputGuide, 20);
+        write(1, inputGuide, strlen(inputGuide));
 
-        char* input = ReadStdInput(11);
-        inputValue[k] = atoi(input);
+        // Initialize input integer
+        inputValue[k] = atoi(ReadStdInput(11));
     }
     
     // Swap pointer
@@ -50,14 +51,14 @@ void Execute() {
 
         // Convert k to char
         snprintf(&outputAppend[0], 16, "%d", inputValue[k]);
-        // Generate inputGuide text
-        strcat(outputAppend, " ");
-        strcat(outputGuide, outputAppend);
+        
+        // Change output text
+        outputGuide = CharAppend(outputGuide, CharAppend(outputAppend, " "));
     }
     
     strcat(outputGuide, "\n");
     // print out input guide
-    write(1, outputGuide, 64);
+    write(1, outputGuide, strlen(outputGuide));
 }
 
 char* ReadStdInput(int inputSize) {
@@ -80,4 +81,14 @@ void fn_swap(int *a, int *b) {
     int temp = *a;
     *a = *b;
     *b = temp;
+}
+
+// <Summary> Append two char array
+char* CharAppend(char* _originalText, char* _append) {
+    char* input = (char*)malloc(strlen(_originalText) + strlen(_append));
+
+    strcpy(input, _originalText);
+    strcat(input, _append);
+
+    return input;
 }
