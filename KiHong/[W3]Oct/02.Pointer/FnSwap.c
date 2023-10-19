@@ -21,6 +21,27 @@ int main(void) {
 
 // <Summary> Execute process
 void Execute() {
+    int base = 1;
+    int * test = (int*)malloc(1 * sizeof(int));
+    memset(test, 4, sizeof(test));
+    int * test2 = test;
+    printf("Test 1 value : %d\n", *test);  // test 주소의 쓰레기 값 출력
+    printf("Test 2 value : %d\n", *test2); // test 주소의 쓰레기 값 출력
+    printf("Test 1 pointer : %p\n", test);  // test 주소의 쓰레기 값 출력
+    printf("Test 2 pointer : %p\n", test2); // test 주소의 쓰레기 값 출력`
+    test2 = &base;          // test2에 base 주소 입력
+    printf("base value : %d\n", *test2); // base 주소에 있는 값 출력
+    
+    free(test); // test 메모리 할당 제거
+    // free(test2); // 오류 발생 : test2는 메모리에 할당된 적이 없다.
+    
+    printf("Test 1 value : %d\n", *test);  // test 주소의 쓰레기 값 출력
+    printf("Test 2 value : %d\n", *test2); // test 주소의 쓰레기 값 출력
+    printf("Test 1 pointer : %p\n", test);  // test 주소의 쓰레기 값 출력
+    printf("Test 2 pointer : %p\n", test2); // test 주소의 쓰레기 값 출력`
+    // test2 = 0;
+    // printf("%d\n", *test2); // 오류 발생 : test2의 메모리 부재
+
     int inputValue[2];
     char* outputGuide = "Swap : ";
 
