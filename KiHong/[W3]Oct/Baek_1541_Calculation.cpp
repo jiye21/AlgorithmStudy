@@ -31,6 +31,7 @@
 #include <string>
 using namespace std;
 
+#define SEARCH_TARGET "+-\0"
 
 int SimpleCalculation(string math);
 
@@ -42,16 +43,16 @@ int main(void) {
 }
 
 int SimpleCalculation(string math) {
-    int end = math.find_first_of("+-\0", 0);
+    int end = math.find_first_of(SEARCH_TARGET, 0);
     int start = 0;
     int result = stoi(math.substr(0, end));
     int subCheck = 1;
     
     while (end < math.size()) {        
         if (math[end] == '-') subCheck = -1;
-        start = end;
-        end = math.find_first_of("+-\0", start + 1);
-        result += stoi(math.substr(start + 1, end - start + 1)) * subCheck;
+        start = end + 1;
+        end = math.find_first_of(SEARCH_TARGET, start);
+        result += stoi(math.substr(start, end - start)) * subCheck;
     }
 
     return result;
