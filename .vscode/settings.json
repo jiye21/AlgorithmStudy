@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "writelib.h": "c",
+        "ostream": "cpp",
+        "vector": "cpp",
+        "typeinfo": "cpp",
+        "random": "cpp"
+    }
+}
