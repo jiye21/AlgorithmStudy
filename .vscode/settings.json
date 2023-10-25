@@ -5,6 +5,7 @@
         "ostream": "cpp",
         "vector": "cpp",
         "typeinfo": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "*.tcc": "cpp"
     }
 }
