@@ -62,46 +62,79 @@ yxz
 #include <iostream>
 #include <string>
 #include <list>
+#include <time.h>
 using namespace std;
 
-
+string Editor(string input);
 
 int main(void) {
-    string letterInput;
-    int loop;
+    clock_t start, finish;
+    double duration;
+ 
+    start = clock();
     
-    cin >> letterInput;
+    string letterInput;
+    getline(cin, letterInput);
+    
+    cout << Editor(letterInput) << endl;
+
+    /*실행 시간을 측정하고 싶은 코드*/
+ 
+    finish = clock();
+ 
+    duration = (double)(finish - start) / CLOCKS_PER_SEC;
+    cout << duration << "초" << endl;
+    
+    return 0;
+}
+
+string Editor(string input) {
+    list<char> letters(input.begin(), input.end());
+    list<char>::iterator curser = letters.end();
+
+    int loop;
     cin >> loop;
+    
+    while (loop--) {
+        char inputIO;
+        cin >> inputIO;
 
-    list<char> letters;
-    copy(letterInput.begin(), letterInput.end(), back_inserter(letters));
-
-    for (int k = 0; k < loop; k++) {
-        unsigned int curser = letterInput.length() + 1;
-        string input;
-        cin >> input;
-
-        if (input[0] == 'L') {
-            curser--;
-        }
-        else if (input[0] == 'D') {
-            curser += (curser + 1 < letterInput.length() + 1) ? 1 : 0;
-        }
-        else if (input[0] == 'B') {
-            if (curser > 0) {
-                letters.remove(curser--);
+        if (inputIO == 'L') {
+            if (curser != letters.begin()) {
+                curser--;
             }
         }
-        else if (input[0] == 'P') {
-            auto iterInsert = letters.begin();
-            letters.insert(iterInsert, curser, input[2]);
+        else if (inputIO == 'D') {
+            
+            if (curser != letters.end()) {
+                curser++;
+            }
         }
+        else if (inputIO == 'B') {
+            if (curser != letters.begin()){
+                letters.erase(--curser);
+            }
+        }
+        else if (inputIO == 'P') {
+            char newChar;
+            cin >> newChar;
+            
+            letters.insert(curser++, newChar);
+        }
+        
+        for (const char& ch : letters) {
+            cout << ch;
+        }
+        cout << endl;
+
+        cout << curser._M_node << endl;
     }
 
-    letters = "";
+    string letterInput;
     for (const char& ch : letters) {
-        letters += ch;
+        letterInput += ch;
     }
+    letterInput += '\0';
 
-    return 0;
+    return letterInput;
 }
