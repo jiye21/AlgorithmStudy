@@ -62,29 +62,14 @@ yxz
 #include <iostream>
 #include <string>
 #include <list>
-#include <time.h>
 using namespace std;
 
 string Editor(string input);
 
 int main(void) {
-    clock_t start, finish;
-    double duration;
- 
-    start = clock();
-    
     string letterInput;
-    getline(cin, letterInput);
-    
+    cin >> letterInput;
     cout << Editor(letterInput) << endl;
-
-    /*실행 시간을 측정하고 싶은 코드*/
- 
-    finish = clock();
- 
-    duration = (double)(finish - start) / CLOCKS_PER_SEC;
-    cout << duration << "초" << endl;
-    
     return 0;
 }
 
@@ -105,36 +90,26 @@ string Editor(string input) {
             }
         }
         else if (inputIO == 'D') {
-            
             if (curser != letters.end()) {
                 curser++;
             }
         }
         else if (inputIO == 'B') {
             if (curser != letters.begin()){
-                letters.erase(--curser);
+                curser = letters.erase(--curser);
             }
         }
         else if (inputIO == 'P') {
             char newChar;
             cin >> newChar;
-            
-            letters.insert(curser++, newChar);
+            letters.insert(curser, newChar);
         }
-        
-        for (const char& ch : letters) {
-            cout << ch;
-        }
-        cout << endl;
-
-        cout << curser._M_node << endl;
     }
 
-    string letterInput;
+    string result;
     for (const char& ch : letters) {
-        letterInput += ch;
+        result += ch;
     }
-    letterInput += '\0';
-
-    return letterInput;
+    
+    return result;
 }
