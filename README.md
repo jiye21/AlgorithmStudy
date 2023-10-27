@@ -16,6 +16,19 @@ Com2us 서버캠퍼스 알고리즘 스터디입니다.
 3. 알고리즘 풀이 후 원본 저장소에 `PR`를 보낸다.
 
 <br/>
+<br/>
+
+## 📌 commit, merge, filename 규칙
+- commit - [imoji] [tag] : [yy.mm.dd] [name] [description]
+- merge - 🔀 merge : [yy.mm.dd] [name] [description]
+- filename - [tag]ps_name
+
+  ex) [BOJ]1966_프린터큐.cpp
+### 플랫폼
+| 플랫폼    | 태그  |
+|:-------|:----|
+| 백준     | BOJ |
+| 프로그래머스 | PGS |
 
 
 ## 😀 이모지 및 태그
