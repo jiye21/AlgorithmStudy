@@ -25,8 +25,8 @@ ThIsIsS3Cr3t
 #include <list>
 using namespace std;
 
-string KeyLoggerStack(string input);
 string KeyLoggerList(string input);
+string KeyLoggerString(string input);
 
 int main(void) {
     int loop;
@@ -35,7 +35,6 @@ int main(void) {
     while (loop--) {
         string input;
         cin >> input;
-        //cout << KeyLoggerStack(input) << endl;
         cout << KeyLoggerList(input) << endl;
     }
 
@@ -44,35 +43,69 @@ int main(void) {
 
 string KeyLoggerList(string input) {
     string result;
-    list<char> inputList(input.begin(), input.end());
-    list<char> storageList;
-    list<char>::iterator curser = inputList.begin();
-    list<char>::iterator storeCurser = inputList.begin();
+    string::iterator curser = input.begin();
 
-
-    while (curser != inputList.end()) {
+    while (curser != input.end()) {
         if (*curser == '-') {
-            for (int k = 0; k < 2; k++) {
-                if (curser != inputList.begin()) {
-                    curser = inputList.erase(--curser);
-                }
+            if (curser != input.begin()) {
+                curser = input.erase(--curser);
             }
         }
         else if (*curser == '<') {
-            if (curser != inputList.end()) {
-                curser++;
+            if (curser != input.begin()) {
+                curser--;
             }
         }
         else if (*curser == '>') {
-
-        } else {
-            inputList.push_back(storageList.back());
-            storageList.pop_back();
+            if (curser != input.end()) {
+                curser++;
+            }
+        }
+        else {
+            result += *curser;
         }
     } 
 
-    for (const char& ch : inputList) {
-        result += ch;
+    return result;
+}
+
+
+// <summary> String Keylogger
+string KeyLoggerString(string input) {
+    // String iterator는 list와 다르게 원하는 위치에서 실행된다.
+    // 0. "ABC" 문자 입력 ('$' = 커서 위치)
+    // list = ABC"", string = AB"C"
+    // 1. 커서의 앞 문자 erase함수로 제거하기
+    // list = AB"", string = A"C"
+    // 2. 신규 문자 'T'를 insert함수로 넣기
+    // list = ABT"", string = AT"C"
+    // ++++++++++ 결론 ++++++++++
+    // string을 바로 사용하여 list와 같이 만들 수는 있겠지만
+    // 그로인해 추가적으로 연산처리를 해야하는 것들이 많아진다.
+    // 코드 더러워진다. 하지말자.
+    string result;
+    string::iterator curser = result.begin();
+    
+    for (auto character : input){
+        if (character == '-'){
+            string::iterator temp = curser;
+            if (curser != input.end()) curser--;
+            input.erase(temp);
+        }
+        else if (character == '<'){
+            if (curser != result.begin()) {
+                curser--;
+            }
+        }
+        else if (character == '>'){
+            if (curser != --result.end()) {
+                curser++;
+            }
+        }
+        else{
+            if (result.size() > 0) curser++;
+            result.insert(curser, character);
+        }
     }
 
     return result;
