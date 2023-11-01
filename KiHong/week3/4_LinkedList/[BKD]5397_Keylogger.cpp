@@ -35,7 +35,7 @@ int main(void) {
     while (loop--) {
         string input;
         cin >> input;
-        cout << KeyLoggerList(input) << endl;
+        cout << KeyLoggerString(input) << endl;
     }
 
     return 0;
@@ -83,14 +83,15 @@ string KeyLoggerString(string input) {
     // string을 바로 사용하여 list와 같이 만들 수는 있겠지만
     // 그로인해 추가적으로 연산처리를 해야하는 것들이 많아진다.
     // 코드 더러워진다. 하지말자.
-    string result;
+    string result = "";
     string::iterator curser = result.begin();
     
     for (auto character : input){
         if (character == '-'){
-            string::iterator temp = curser;
-            if (curser != input.end()) curser--;
-            input.erase(temp);
+            if (curser != result.begin()) {
+                string::iterator temp = curser--;
+                result.erase(temp);
+            }
         }
         else if (character == '<'){
             if (curser != result.begin()) {
