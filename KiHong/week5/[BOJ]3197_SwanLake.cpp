@@ -43,6 +43,7 @@ XX
 .L
 예제 출력 1 
 3
+
 예제 입력 2 
 4 11
 ..XXX...X..
@@ -51,6 +52,7 @@ XX
 X.L..XXX...
 예제 출력 2 
 2
+
 예제 입력 3 
 8 17
 ...XXXXXX..XX.XXX
@@ -71,6 +73,13 @@ XXXXXXX...XXXX...
 #include <queue>
 using namespace std;
 
+#define MELT_FROM_FIRST_SWAN 0
+#define MELT_FROM_SECOND_SWAN 1
+#define VISITED 2
+#define WATER 3
+
+int BFS(vector<vector<char>> map, vector<pair<int,int>> swans, int rows, int columns);
+
 int main(void) {
     ios::sync_with_stdio(false);
 	cin.tie(0); cout.tie(0);
@@ -90,32 +99,169 @@ int main(void) {
         }
     }
 
-    
+    cout << BFS(lake, swans, row, column) << '\n';
 
     return 0;
 }
 
 int BFS(vector<vector<char>> map, vector<pair<int,int>> swans, int rows, int columns) {
-    int days = 0;
+    int days = 1;
     queue<pair<int,int>> path;
-    vector<vector<bool>> visited(rows, vector<bool>(columns, 0));
-    
+    vector<vector<int>> visited(rows, vector<int>(columns, WATER));
+    for (int k = 0; k < swans.size(); k++) {
+        visited[swans[k].first][swans[k].second] = VISITED;
+    }
+
     while (1) {
-        for (int row = 0; row < rows; row++) {
-            for (int col = 0; col < columns; col++) {
-                if (visited[row][col]) {
-                    continue;
+        queue<pair<int,int>> meltingPath;
+        
+        cout << "====== Days : " << days << " ======" << endl;
+
+        for (int swan = 0; swan < swans.size(); swan++) {
+            pair<int,int> currentSwanPosition = swans[swan];
+
+            if (path.empty()) {
+                path.push(currentSwanPosition);
+            }
+
+            while (!path.empty()) {
+                pair<int, int> node = path.front();
+                path.pop();
+
+                // Check up
+                int direction = node.first - 1;
+                if (direction > -1) {
+                    // If node is water category
+                    if (visited[direction][node.second] == WATER) {
+                        // If node is actual water
+                        if (map[direction][node.second] == '.') {
+                            // Add new path
+                            visited[direction][node.second] = VISITED;
+                            path.push({direction, node.second});
+                        }
+                        // If node is a melting point
+                        else if (map[direction][node.second] == 'X') {
+                            visited[direction][node.second] = swan;
+                            map[direction][node.second] = visited[direction][node.second] + '0';
+                            meltingPath.push({direction, node.second});
+                        }
+                        // If node is another swan
+                        else if (currentSwanPosition != swans[swan]) {
+                            return days;
+                        }
+                    }
+                    // If node is other swan's melting point
+                    // Means the swans will meet tomorrow
+                    else if ((visited[direction][node.second] == MELT_FROM_FIRST_SWAN && visited[node.first][node.second] == MELT_FROM_SECOND_SWAN) ||
+                            (visited[direction][node.second] == MELT_FROM_SECOND_SWAN && visited[node.first][node.second] == MELT_FROM_FIRST_SWAN)) {
+                        return days;
+                    }
+                }
+                
+                // Check down
+                direction = node.first + 1;
+                if (direction < rows) {
+                    // If node is water category
+                    if (visited[direction][node.second] == WATER) {
+                        // If node is actual water
+                        if (map[direction][node.second] == '.') {
+                            // Add new path
+                            visited[direction][node.second] = VISITED;
+                            path.push({direction, node.second});
+                        }
+                        // If node is a melting point
+                        else if (map[direction][node.second] == 'X') {
+                            visited[direction][node.second] = swan;
+                            map[direction][node.second] = visited[direction][node.second] + '0';
+                            meltingPath.push({direction, node.second});
+                        }
+                        // If node is another swan
+                        else if (currentSwanPosition != swans[swan]) {
+                            return days;
+                        }
+                    }
+                    // If node is other swan's melting point
+                    // Means the swans will meet tomorrow
+                    else if ((visited[direction][node.second] == MELT_FROM_FIRST_SWAN && visited[node.first][node.second] == MELT_FROM_SECOND_SWAN) ||
+                            (visited[direction][node.second] == MELT_FROM_SECOND_SWAN && visited[node.first][node.second] == MELT_FROM_FIRST_SWAN)) {
+                        return days;
+                    }
                 }
 
-                visited[row][col] = true;
+                // Check left
+                direction = node.second - 1;
+                if (direction > -1) {
+                    // If node is water category
+                    if (visited[node.first][direction] == WATER) {
+                        // If node is actual water
+                        if (map[node.first][direction] == '.') {
+                            // Add new path
+                            visited[node.first][direction] = VISITED;
+                            path.push({node.first, direction});
+                        }
+                        // If node is a melting point
+                        else if (map[node.first][direction] == 'X') {
+                            visited[node.first][direction] = swan;
+                            map[node.first][direction] = visited[node.first][direction] + '0';
+                            meltingPath.push({node.first, direction});
+                        }
+                        // If node is another swan
+                        else if (currentSwanPosition != swans[swan]) {
+                            return days;
+                        }
+                    }
+                    // If node is other swan's melting point
+                    // Means the swans will meet tomorrow
+                    else if ((visited[node.first][direction] == MELT_FROM_FIRST_SWAN && visited[node.first][node.second] == MELT_FROM_SECOND_SWAN) ||
+                            (visited[node.first][direction] == MELT_FROM_SECOND_SWAN && visited[node.first][node.second] == MELT_FROM_FIRST_SWAN)) {
+                        return days;
+                    }
+                }
 
-                if (map[row][col] == 'X') {
-                    continue;
+                // Check right
+                direction = node.second + 1;
+                if (direction < columns) {
+                    // If node is water category
+                    if (visited[node.first][direction] == WATER) {
+                        // If node is actual water
+                        if (map[node.first][direction] == '.') {
+                            // Add new path
+                            visited[node.first][direction] = VISITED;
+                            path.push({node.first, direction});
+                        }
+                        // If node is a melting point
+                        else if (map[node.first][direction] == 'X') {
+                            visited[node.first][direction] = swan;
+                            map[node.first][direction] = visited[node.first][direction] + '0';
+                            meltingPath.push({node.first, direction});
+                        }
+                        // If node is another swan
+                        else if (currentSwanPosition != swans[swan]) {
+                            return days;
+                        }
+                    }
+                    // If node is other swan's melting point
+                    // Means the swans will meet tomorrow
+                    else if ((visited[node.first][direction] == MELT_FROM_FIRST_SWAN && visited[node.first][node.second] == MELT_FROM_SECOND_SWAN) ||
+                            (visited[node.first][direction] == MELT_FROM_SECOND_SWAN && visited[node.first][node.second] == MELT_FROM_FIRST_SWAN)) {
+                        return days;
+                    }
                 }
             }
         }
 
+        days++;
 
+        // if there's no ice to melt = the whole lake is melted
+        if (meltingPath.empty()) {
+            break;
+        }
+
+        while (!meltingPath.empty()) {
+            path.push(meltingPath.front());
+            meltingPath.pop();
+        }
     }
+
     return days;
 }
