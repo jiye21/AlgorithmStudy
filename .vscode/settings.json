@@ -6,6 +6,7 @@
     "vector": "cpp",
     "typeinfo": "cpp",
     "random": "cpp",
+<<<<<<< HEAD
     "*.tcc": "cpp",
     "array": "cpp",
     "deque": "cpp",
@@ -49,6 +50,9 @@
     "stdexcept": "cpp",
     "streambuf": "cpp",
     "queue": "cpp"
+=======
+    "*.tcc": "cpp"
+>>>>>>> 2d106fc3f299d74c155a4dc5bf753a84344a132f
   },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cCompilerPath": "gcc",
