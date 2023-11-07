@@ -6,7 +6,8 @@
     "vector": "cpp",
     "typeinfo": "cpp",
     "random": "cpp",
-    "*.tcc": "cpp"
+    "*.tcc": "cpp",
+    "iostream": "cpp"
   },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cCompilerPath": "gcc",
