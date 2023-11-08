@@ -21,3 +21,77 @@
 수빈이가 5-10-9-18-17 순으로 가면 4초만에 동생을 찾을 수 있다.
 */
 
+#include <iostream>
+#include <queue>
+using namespace std;
+
+int BFS(int from, int destination);
+
+int main(void){
+    ios::sync_with_stdio(false);
+	cin.tie(0); cout.tie(0);
+
+    int from, to;
+    cin >> from >> to;
+
+    cout << BFS(from, to) << '\n';
+
+    return 0;
+}
+
+int BFS(int from, int destination) {
+    int result = 0;
+    int distance = (destination - from);
+    int maxLength = distance * 2;
+    queue<int> path;
+    bool visited[distance * 2] = {false,};
+    
+    visited[0] = true;
+
+    cout << distance << endl;
+
+    if (from != destination) {
+        path.push(from);
+    }
+
+    while (!path.empty()) {
+        int spot = path.front();
+        int right = spot + 1 - from;
+        int left = spot - 1 - from;
+        int teleport = spot * 2 - from;
+        path.pop();
+
+        result++;
+
+        cout << result << " : " ;
+        for (int k = 0; k < distance * 2; k++) {
+            cout << visited[k];
+        }
+        cout << endl;
+
+        if (right == distance || left == distance || teleport == distance) {
+            break;
+        }
+
+        // walk left
+        if (right < distance && !visited[right]) {
+            path.push(right);
+            visited[right] = true;
+        }
+
+        // walk right
+        if (left > 0 && !visited[left]) {
+            path.push(left);
+            visited[left] = true;
+        }
+
+        if (teleport < maxLength && !visited[teleport]) {
+            path.push(teleport);
+            visited[teleport] = true;
+        }
+
+        if (result > 20) break;
+    }
+
+    return result;
+}
