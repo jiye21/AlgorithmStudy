@@ -1,46 +1,42 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 
 int n, m;
+int arr[9] = {0,};
 bool visited[9] = {0,};
-vector<int> progress;
 
-void DFS(int start);
+void DFS(int count);
 
 int main(void) {
     cin >> n >> m;
 
-    DFS(1);
+    DFS(0);
 
     return 0;
 }
 
 
-void DFS(int start)
+void DFS(int count)
 {
-    // 출력해야하는 만큼 배열이 쌓이면 모든 수를 출력한다.
-    if(progress.size() == m)
+    if(count == m)
     {
-        for(int i = 0; i < m; i++)
+        for(int i = 0; i < m; i++) 
         {
-            cout << progress.at(i) << '\x20';
+            cout << arr[i] << ' ';
         }
         cout << '\n';
+        
         return;
     }
 
-    for(int k = start; k <= n; k++)
+    for(int i = 1; i <= n; i++)
     {
-        if(!visited[k])
+        if(!visited[i])
         {
-            visited[k] = true;
-            progress.push_back(k);
-
-            DFS(k);
-
-            visited[k] = false;
-            progress.pop_back();
+            visited[i] = true;
+            arr[count] = i;
+            DFS(count+1);
+            visited[i] = false;
         }
     }
 }
