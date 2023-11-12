@@ -42,9 +42,8 @@ int main(void){
 int BFS(int from, int destination) {
     int result = 0;
     int distance = (destination - from);
-    int maxLength = distance * 2;
-    queue<int> path;
     bool visited[distance * 2] = {false,};
+    queue<int> path;
     
     visited[0] = true;
 
@@ -56,39 +55,50 @@ int BFS(int from, int destination) {
 
     while (!path.empty()) {
         int spot = path.front();
-        int right = spot + 1 - from;
-        int left = spot - 1 - from;
-        int teleport = spot * 2 - from;
+        int right = (spot + 1);
+        int left = (spot - 1);
+        int teleport = (spot * 2);
         path.pop();
 
         result++;
 
-        cout << result << " : " ;
-        for (int k = 0; k < distance * 2; k++) {
-            cout << visited[k];
-        }
-        cout << endl;
-
-        if (right == distance || left == distance || teleport == distance) {
+        if (right == destination || left == destination || teleport == destination) {
             break;
         }
 
+        if (!visited[teleport - from]) {
+            if (destination - teleport < destination - right) {
+                path.push(teleport);
+                visited[teleport - from] = true;
+            } else if (destination - teleport > destination - left) {
+
+            }
+        }
+
         // walk left
-        if (right < distance && !visited[right]) {
+        if (right < destination && !visited[right - from]) {
             path.push(right);
-            visited[right] = true;
+            visited[right - from] = true;
         }
 
         // walk right
-        if (left > 0 && !visited[left]) {
+        if (left > from && !visited[left - from]) {
             path.push(left);
-            visited[left] = true;
+            visited[left - from] = true;
         }
 
-        if (teleport < maxLength && !visited[teleport]) {
-            path.push(teleport);
-            visited[teleport] = true;
+        cout << "L : " << left << " R : " << right << " T : " << teleport << endl;
+        cout << result << " : " ;
+        for (int k = 0; k < distance * 2; k++) {
+            if (k == distance) {
+                cout << "D";
+            } else if (k == spot) {
+                cout << "S";
+            } else {
+                cout << visited[k];
+            }
         }
+        cout << endl;
 
         if (result > 20) break;
     }
