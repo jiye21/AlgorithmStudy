@@ -2,7 +2,14 @@
   "files.associations": {
     "stdio.h": "c",
     "stdlib.h": "c",
-    "typeinfo": "c"
+    "typeinfo": "c",
+    "algorithm": "cpp",
+    "queue": "cpp",
+    "*.tcc": "cpp",
+    "string": "cpp",
+    "unordered_map": "cpp",
+    "list": "cpp",
+    "random": "cpp"
   },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cCompilerPath": "gcc",
