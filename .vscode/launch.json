@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/mnt/d/Com2UsStudy/KiHong/Baaaarking/4_LinkedList",
-      "program": "/mnt/d/Com2UsStudy/KiHong/Baaaarking/4_LinkedList/build/Debug/outDebug",
+      "cwd": "/mnt/c/Users/SBA/Documents/AlgorithmStudy/KiHong/week4",
+      "program": "/mnt/c/Users/SBA/Documents/AlgorithmStudy/KiHong/week4/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
