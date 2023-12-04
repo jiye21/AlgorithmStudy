@@ -69,33 +69,87 @@ N×M크기의 배열로 표현되는 미로가 있다.
 
 using namespace std;
 
+
+// 길찾기에 사용될 노드 구조체
+typedef struct sNode {
+    sNode(int x, int y, int step = 1) {
+        this->x = x;
+        this->y = y;
+        this->step = step;
+    }
+    int x, y;	// 현재 x, y 좌표
+    int step;	// 현재 이동 거리
+} Node;
+
+
 // Down, Right, Up, Left
-int direction[4][4] = {{-1,0},{0,1},{1,0},{1,0}};
+int direction[4][2] = {{1,0},{0,1},{-1,0},{0,-1}};
+int n, m;
+vector<vector<int>> map;
 
 
+int BFS() {
+  queue<Node> path;
+  path.push(Node(0,0));
 
+
+  while (!path.empty()) {
+    Node node = path.front();
+    path.pop();
+
+    map[0][0] = 0;							            // 시작점 설정
+    map[n-1][m-1] = 2;	// 도착점 설정
+    
+    for (int d = 0; d < 4; d++) {
+      int vertical = node.x + direction[d][0];
+      int horizontal = node.y + direction[d][1];
+      
+      if (vertical < 0 || vertical > map.size() - 1 ||
+          horizontal < 0 || horizontal > map[0].size() - 1)
+          continue;
+      
+      int pos = map[vertical][horizontal];
+
+      // 가려는 방향이 벽인 경우
+      if (pos == 0) {
+          continue;
+      }
+      // 가려는 방향이 목적지인 경우
+      else if (pos == 2) {
+          return node.step+1;
+      }
+      // 가려는 방향이 길인 경우
+      else if (pos == 1) {
+          map[vertical][horizontal] = 0;
+          path.push(Node(vertical, horizontal, node.step + 1));
+      }
+    }
+  }
+
+  return -1;
+}
 
 
 int main(void) {
   ios::sync_with_stdio(0);
   cin.tie(nullptr); cout.tie(nullptr);
 
-  queue<pair<int,int>> path;
-
-  int n, m;
   cin >> n >> m;
 
-  int map[n][m];
   for (int k = 0; k < n; k++) {
     string row;
     cin >> row;
 
-    for (int j=0; j < m; ++j) {
-      map[k][j] = row[j]-'0';
+    // 신규 벡터 생성
+    map.push_back({});
+
+    // 맵 행 등록
+    for (int j = 0; j < m; j++) {
+      map[k].push_back(row[j] - '0');
     }
   }
 
-  
+  cout << BFS() << '\n';
 
   return 0;
 }
