@@ -62,7 +62,7 @@ int main(void) {
                 current /= 10;
             }
             else {
-                counter++;
+                counter+=6;
                 break;
             }
         }
