@@ -1,20 +1,16 @@
 {
   "files.associations": {
     "stdio.h": "c",
-    "writelib.h": "c",
-    "ostream": "cpp",
-    "vector": "cpp",
-    "typeinfo": "cpp",
-    "random": "cpp",
+    "stdlib.h": "c",
+    "typeinfo": "c",
+    "algorithm": "cpp",
+    "queue": "cpp",
     "*.tcc": "cpp",
-    "array": "cpp",
-    "deque": "cpp",
-    "list": "cpp",
     "string": "cpp",
     "unordered_map": "cpp",
-    "string_view": "cpp",
-    "initializer_list": "cpp",
-    "iostream": "cpp"
+    "list": "cpp",
+    "random": "cpp",
+    "ostream": "cpp"
   },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cCompilerPath": "gcc",

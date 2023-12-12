@@ -1,5 +1,6 @@
 # Prerequisites
 *.d
+c_cpp_properties.json.
 
 # Compiled Object files
 *.slo
