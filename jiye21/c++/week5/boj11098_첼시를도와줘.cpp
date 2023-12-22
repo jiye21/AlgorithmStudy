@@ -9,7 +9,7 @@ using namespace std;
 // first 값이 같을 때는 second기준으로 오름차순이다. 
 
 bool compare(pair<int, string> &a, pair<int, string> &b){
-    return a.first > b.first;
+    return a.first > b.first;       // 내림차순으로 정렬
 }
 
 

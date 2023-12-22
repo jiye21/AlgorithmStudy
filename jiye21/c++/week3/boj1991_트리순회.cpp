@@ -1,6 +1,7 @@
 #include <iostream>
 
 using namespace std;
+/*
 // 이진트리 순회 3가지
 // 각 노드가 최대 2개의 자식노드를 가질 때 이진트리라고 한다. 따라서, 이진트리는 자식이 없을 수도 있고 하나만 있을 수도 있다. 
 // 트리를 계속 서브트리로 쪼갠다. 
@@ -19,6 +20,7 @@ using namespace std;
 // 왼쪽 서브트리 postorder
 // 오른쪽 서브트리 postorder
 // 루트 노트 방문 (최상단 노드, 맨 마지막에 방문)
+*/
 
 struct TreeNode {
     char data;
