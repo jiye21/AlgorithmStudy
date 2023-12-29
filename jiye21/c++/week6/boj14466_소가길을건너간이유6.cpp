@@ -9,8 +9,7 @@ R개의 길
 
 길을 건너지 않으면 만나지 못하는 소의 쌍 구하기
 
-정점이 n개이면 간선은 유방향 그래프에서 n*(n-1)개이다. (자기자신을 제외한 다른 모든 정점으로 이동가능)
-무방향 그래프에서는 왕복을 제외하므로 n*(n-1)/2개이다. 
+소가 n마리이면 소는 nC2쌍, n!/2!(n-2)!이다. n*(n-1)/2
 
 길의 좌푯값을 덮어쓰는 문제를 해결하자. 한 좌표에서 길이 여러 갈래 나 있을 경우가 존재. 
 
@@ -24,13 +23,14 @@ using namespace std;
 
 int n,k,r;
 
-// [x][y]에 어떤 좌표값이 들어 있으면 그 좌표로는 이동불가
-//vector<vector<pair<int,int>>> field(101, vector<pair<int,int>> (101));
+// r, c, nr, nc
 int field[101][101][101][101];
 
 int moo[101][101];
 
 int cnt = 0;
+
+int moo_all = 0;
 
 // 매개변수 좌표 기준 뒷 좌표들만 탐색하면 된다. 
 void BFS(int x, int y){
@@ -53,14 +53,14 @@ void BFS(int x, int y){
             int nc = c + dc[i];
             
 
-            if(nr>0&& nc>0 && nr<101 && nc<101 &&
+            if(nr>=1&& nc>=1 && nr<=n && nc<=n &&
              visited[nr][nc]!=1 && 
-             field[r][c].first != nr && field[r][c].second != nc){
+             field[r][c][nr][nc] != 1 && field[nr][nc][r][c] != 1){
                 q.push({nr,nc});
                 visited[nr][nc] = 1;
                 
-                // 소가 서로 만났으면 체크
-                if(nr>x && nc>y && moo[nr][nc]==1){
+                // 이동한 곳에 소가 있으면 체크
+                if(moo[nr][nc] == 1){
                     cnt++;
                 }
             }
@@ -79,10 +79,8 @@ int main(){
         int a,b,x,y;
         cin >> a >> b >> x >> y;
 
-        field[a][b].first = x;
-        field[a][b].second = y;
-        field[x][y].first = a;
-        field[x][y].second = b;
+        field[a][b][x][y] = 1;
+        field[x][y][a][b] = 1;
     }
 
     // 소의 위치 저장
@@ -91,17 +89,21 @@ int main(){
         cin >> x >> y;
 
         moo[x][y] = 1;
+        moo_all++;      // 입력 받으면서 소의 마릿수 세어줌
     }
 
-    for(int i=1; i<=n; i++){
-        for(int j=1; j<=n; j++){
+    for(int i=0; i<101; i++){
+        for(int j=0; j<101; j++){
             if(moo[i][j]==1){
                 BFS(i,j);
+                moo[i][j] = 0;      // 탐색한 소는 더이상 만날 필요 없음            
             }
         }
     }
 
-    // 모든 경우의 수에서 만난 소들을 빼 만나지 못한 소 출력
-    cout << n*(n-1)/2 - cnt;
+    
+
+    // 모든 소에서 만난 소들을 빼 만나지 못한 소 출력
+    cout << moo_all*(moo_all-1)/2 - cnt;
 
 }
